@@ -11,7 +11,8 @@ from django.template import loader
 
 
 def index(request):
-  return HttpResponse("<h1>This is the music app homepage</h1>")
+  template = loader.get_template('appointments/index.html')
+  return HttpResponse(template.render())
 
 
 
