@@ -9,7 +9,8 @@ def convert_json(rawData):
     apptsObj = {
       "description": appts.description,
       "user": appts.user,
-      "datetime": appts.datetime
+      "datetime": appts.datetime,
+      "id": appts.id
     }
     appointmentsArr.append(apptsObj)
     

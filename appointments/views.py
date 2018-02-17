@@ -1,24 +1,40 @@
-from django.http import HttpResponse
+# model
 from .models import Appointment
-from .convert_json import convert_json
-from django.views.generic import View
+# json utils
 import json
-
+from .convert_json import convert_json
+# views and http
+from django.http import HttpResponse
+from django.views.generic import View
+# template
+from django.template import loader
 
 
 def index(request):
   return HttpResponse("<h1>This is the music app homepage</h1>")
 
+
+
+def appointmentUser(request, user):
+  if (request.method == "GET"):
+    # Get users matching the url from the database
+    userAppointments = Appointment.objects.filter(user=str(user))
+    
+    jsonData = convert_json(userAppointments)
+
+    return HttpResponse(jsonData, content_type='application/json')
+
+
+
 class Appointments(View):
   
   # Get all appointments 
   def get(self, request):
-    print('this is the request', request)
-    appointments = Appointment.objects.all()
-    jsonData = convert_json(appointments)
-    
-    print(jsonData)
-    return HttpResponse(jsonData, content_type='application/json')
+    if (request.method == "GET"):
+      appointments = Appointment.objects.all()
+      jsonData = convert_json(appointments)
+      
+      return HttpResponse(jsonData, content_type='application/json')
 
 
 
@@ -48,7 +64,11 @@ class Appointments(View):
 
       else:
 
-        print(appointment, 'request.body')
-        testresponse = json.dumps({'bye': 'test'})
+        # Save the appointment
+
+        apptToSave = Appointment.objects.create(user=appointment['user'], description=appointment['description'],datetime=appointment['datetime'])
+        print(apptToSave.id)
+        appointment['id'] = apptToSave.id
+        jsonResponse = json.dumps(appointment)
         
-        return HttpResponse(testresponse, status=202, content_type='application/json')
+        return HttpResponse(jsonResponse, status=202, content_type='application/json')
