@@ -50,10 +50,10 @@ class Appointments(View):
 
     if (request.method == "POST"):
 
-      # Parse json
-      
-      appointment = json.loads(request.body)
-          
+      print(request.POST)
+
+      appointment = request.POST
+
       # Check for missing fields
 
       missingfields = []
@@ -70,13 +70,21 @@ class Appointments(View):
         return HttpResponse(missing, status=400, content_type='application/json')
 
       else:
-
+        
         # Save the appointment
 
         apptToSave = Appointment.objects.create(user=appointment['user'], description=appointment['description'],datetime=appointment['datetime'])
         print(apptToSave.id)
-        appointment['id'] = apptToSave.id
-        jsonResponse = json.dumps(appointment)
+
+        # Write the id to the response object to send to the client
+        appointmentResponse = {
+          'user': appointment['user'],
+          'datetime': appointment['datetime'],
+          'description': appointment['description'],
+          'id': apptToSave['id']
+        }
+
+        jsonResponse = json.dumps(appointmentResponse)
         
         # Return the saved appointment as confirmation
         return HttpResponse(jsonResponse, status=202, content_type='application/json')

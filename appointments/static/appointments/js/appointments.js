@@ -5,7 +5,7 @@
 
   let state = {
     createAppointment: false
-  }
+  };
 
   
   
@@ -33,17 +33,19 @@
         if (state.createAppointment) {
 
           console.log('appointment create form submitted');
+          
+          let dateTime =  moment($('#date').val() + ' ' + $('#time').val(), 'YYYY-MM-DD hh:mm')
           let inputs = {
             user: $('#user').val(),
-            date: $('#date').val(),
-            time: $('#time').val(),
+            datetime: dateTime.toISOString(),
             description: $('#description').val()
           }
-          console.log(inputs);
-        
+          console.log(inputs); 
+          // TODO:: post real data
+          postAppointment(inputs)
         }
-      })
-    }
+      });
+    };
 
     const newButton = () => {
       
@@ -60,8 +62,8 @@
           $('#addNewButton').off();  
           submitCreate();
         }
-      })
-    }
+      });
+    };
 
     const cancelButton = () => {
 
@@ -76,7 +78,7 @@
           newButton();
         }
       })
-    }
+    };
 
 
     const checkEmpty = () => {
@@ -92,7 +94,7 @@
           $('#addNewButton').attr('disabled', false)
           }
       })
-    }
+    };
 
 
 
@@ -109,7 +111,7 @@
         data: {
           hello: "test"
         }
-      }
+      };
 
       return $.ajax(options)
         .then((appointments) => {
@@ -119,17 +121,15 @@
           console.log('Server errored');
           // TODO: get rid of loader
         })
-    }
+    };
 
 
-    const postAppointment = () => {
+    const postAppointment = (data) => {
       const options = {
         method: "POST",
         url: `/appointments/`,
-        data: {
-          'hello': "test"
-        }
-      }
+        data
+      };
 
       return $.ajax(options)
         .then((appointment) => {
@@ -137,9 +137,10 @@
         })
         .catch((err) => {
           console.log('Server errored');
+          console.log(err.responseJSON)
           // TODO: get rid of loader
-        })
-    }
+        });
+    };
 
 
 
@@ -152,7 +153,7 @@
       newButton();
       cancelButton();
       checkEmpty();
-    }
+    };
 
     init();
 
