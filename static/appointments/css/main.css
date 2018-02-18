@@ -1,0 +1,23 @@
+nav {
+  background-color: #902020;
+}
+
+div.navbar-brand {
+  color: antiquewhite;
+}
+
+h1 {
+  color:red
+}
+
+form#appt_search {
+  margin-top: 75px;
+}
+
+.hidden{
+  display: none
+}
+
+.hideform{
+  margin-top: 20px;
+}

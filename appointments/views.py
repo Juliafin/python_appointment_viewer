@@ -35,18 +35,18 @@ class Appointments(View):
   # Get all appointments 
   def get(self, request):
     if (request.method == "GET"):
-        if (request.GET.type == "user"):
-          appointments = Appointment.objects.filter(user__contains=request.GET.user)
+      print(request.GET, "REQUEST GET")
+      if (request.GET["type"] == "user"):
+        appointments = Appointment.objects.filter(user__contains=request.GET["searchTerm"])
 
-        elif (request.GET.type == "description"):
-          appointments = Appointment.objects.filter(description__contains=request.GET.description)
+      elif (request.GET["type"] == "description"):
+        appointments = Appointment.objects.filter(description__contains=request.GET["searchTerm"])
 
-        else:
-          query = (request.GET)
-          print(query, "REQUEST BODY")
-          appointments = Appointment.objects.all()
-        jsonData = convert_json(appointments)
-        return HttpResponse(jsonData, content_type="application/json")
+      else:
+        appointments = Appointment.objects.all()
+
+      jsonData = convert_json(appointments)
+      return HttpResponse(jsonData, content_type="application/json")
 
 
 
