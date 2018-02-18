@@ -115,10 +115,13 @@
 
       return $.ajax(options)
         .then((appointments) => {
-          console.log(appointments)
+          // console.log(appointments)
+          state.appointments = appointments;
+          console.log('these are the appointments', state.appointments)
+          renderTable(state.appointments);
         })
         .catch((err) => {
-          console.log('Server errored');
+          console.log('Server error', err);
           // TODO: get rid of loader
         })
     };
@@ -142,6 +145,41 @@
         });
     };
 
+
+  ////////////////////////////////////////////////////////////////////
+  // Render
+  ////////////////////////////////////////////////////////////////////
+
+
+  const renderTable = (tableData) => {
+    $('table.table').empty();
+
+    let tableTemplate = `
+    <thead>
+    <tr>
+      <th scope="col">User</th>
+      <th scope="col">Appointment Time</th>
+      <th scope="col">Description</th>
+    </tr>
+    </thead>
+    `;
+
+    tableData.forEach(row => {
+      let rowTemplate = `
+        <tr id=${row.id}>
+          <td>${row.user}</td>
+          <td>${row.datetime}</td>
+          <td>${row.description}</td>
+        </tr>`
+      tableTemplate += rowTemplate;
+    });
+    console.log(tableTemplate)
+
+    $('table.table').append(tableTemplate);
+
+
+
+  }
 
 
 
