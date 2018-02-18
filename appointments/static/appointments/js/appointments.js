@@ -104,14 +104,14 @@
   // AJAX
   ////////////////////////////////////////////////////////////////////
   
-    const getAppointments = (user="") => {
+    const getAppointments = (type="", searchTerm="") => {
+
+      
       const options = {
         method: "GET",
-        url: `/appointments/${user}`,
+        url: `/appointments/`,
         contentType: 'application/json',
-        data: {
-          hello: "test"
-        }
+        data: {type, searchTerm}
       };
 
       return $.ajax(options)
