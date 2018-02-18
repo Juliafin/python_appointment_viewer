@@ -11,9 +11,13 @@ h1 {
 }
 
 form#appt_search {
-  margin-top: 200px;
+  margin-top: 75px;
 }
 
 .hidden{
   display: none
+}
+
+.hideform{
+  margin-top: 20px;
 }

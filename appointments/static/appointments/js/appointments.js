@@ -1,5 +1,5 @@
-
 ($(document).ready(() => {
+  $(this).scrollTop(0);
   
   console.log('hello world!')
 
@@ -7,8 +7,6 @@
     createAppointment: false
   };
 
-  
-  
   /////////////////////////////////////////////////////////////////////
   // Listeners
   ////////////////////////////////////////////////////////////////////
@@ -38,10 +36,10 @@
           let inputs = {
             user: $('#user').val(),
             datetime: dateTime.toISOString(),
-            description: $('#description').val()
+            description: $('#description').val(),
+            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
           }
           console.log(inputs); 
-          // TODO:: post real data
           postAppointment(inputs)
         }
       });
@@ -56,7 +54,7 @@
           $('#hideform').removeClass('hidden');
           $('#cancel').removeClass('hidden');
           $(this).text('Create');
-          $(this).attr({'type': 'submit', 'disabled':true});
+          $(this).attr({type: 'submit', disabled:true});
           
           state.createAppointment = true; 
           $('#addNewButton').off();  
@@ -70,7 +68,7 @@
       $('#cancel').click(function(event) {
         if (state.createAppointment) {
           $('#hideform').addClass('hidden');
-          $('#addNewButton').attr({'type':'button', 'disabled': false});
+          $('#addNewButton').attr({type:'button', disabled: false});
           $('#addNewButton').text('New');
           state.createAppointment = false;
           $(this).addClass('hidden');
@@ -90,8 +88,11 @@
         let description = $('#description').val();
         
         if (user && date && time && description) {
-          console.log('the fields are not empty');
-          $('#addNewButton').attr('disabled', false)
+          $('#addNewButton').attr({
+            disabled: false,
+            'data-toggle':'modal',
+            'data-target': '#create_appt_modal'
+          })
           }
       })
     };
@@ -137,10 +138,13 @@
       return $.ajax(options)
         .then((appointment) => {
           console.log(appointment)
+          getAppointments();
         })
         .catch((err) => {
           console.log('Server errored');
-          console.log(err.responseJSON)
+          if (err.responseJSON) {
+            console.log(err.responseJSON)
+          }
           // TODO: get rid of loader
         });
     };
@@ -168,18 +172,22 @@
       let rowTemplate = `
         <tr id=${row.id}>
           <td>${row.user}</td>
-          <td>${row.datetime}</td>
+          <td>${moment(row.datetime).format('h:mm A on MMMM Do, YYYY')}</td>
           <td>${row.description}</td>
         </tr>`
       tableTemplate += rowTemplate;
     });
-    console.log(tableTemplate)
 
     $('table.table').append(tableTemplate);
-
-
-
   }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+  // Utils
+  ////////////////////////////////////////////////////////////////////
+
+
 
 
 

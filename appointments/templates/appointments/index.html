@@ -17,33 +17,40 @@
   </nav>
   <div class="container-fluid">
     <h1>Appointment viewer</h1>
-
-    <form id="create_appt" action="" method="POST">
-        {% csrf_token %}
-      <button id="addNewButton" type="button" class="btn btn-primary">New</button>
-      <button id="cancel" type="button" class="btn btn-secondary hidden">Cancel</button>
-      <div id="hideform" class="hidden">
-        <div class="form-group">
-          <label for="user">User</label>
-          <input id="user" class="form-control" type="text"/>
-        </div>
-
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input id="date" class="form-control" type="date"/>
-        </div>
-
-        <div class="form-group"></div>
-          <label for="time">Time</label>
-          <input id="time" class="form-control" type="time"/>
-
-        <div class="form-group">
-          <label for="user">Description</label>
-          <input id="description"  class="form-control" type="text"/>
-        </div>
+    <div class="row">
+      <div class="col-6">
+        <form id="create_appt" action="" method="POST">
+            {% csrf_token %}
+          <button id="addNewButton" type="button" class="btn btn-primary">New</button>
+          <button id="cancel" type="button" class="btn btn-secondary hidden">Cancel</button>
+          <div id="hideform" class="hidden hideform">
+            <div class="form-group">
+              <label for="user">User</label>
+              <input id="user" class="form-control" type="text"/>
+            </div>
+    
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input id="date" class="form-control" type="date"/>
+            </div>
+    
+            <div class="form-group"></div>
+              <label for="time">Time</label>
+              <input id="time" class="form-control" type="time"/>
+    
+            <div class="form-group">
+              <label for="user">Description</label>
+              <input id="description"  class="form-control" type="text"/>
+            </div>
+          </div>
+    
+        </form>
+        <div class="col"></div>
+        
       </div>
 
-    </form>
+
+    </div>
 
 
 
@@ -72,6 +79,26 @@
     </div>
 
   </div>
+
+
+  <div class="modal fade" id="create_appt_modal" tabindex="-1" role="dialog" aria-labelledby="create_appt_modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="create_appt_modal">Appointment successfully created!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

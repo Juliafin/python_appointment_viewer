@@ -8,15 +8,14 @@ from django.http import HttpResponse
 from django.views.generic import View
 # template
 from django.template import loader
-from urllib.parse import parse_qs
-
+from django.shortcuts import render
 
 
 def index(request):
-  template = loader.get_template('appointments/index.html')
+  template = loader.get_template("appointments/index.html")
   userIP = get_client_ip(request)
   print(userIP)
-  return HttpResponse(template.render())
+  return render(request, "appointments/index.html")
 
 
 
@@ -27,7 +26,7 @@ def appointmentUser(request, user):
     
     jsonData = convert_json(userAppointments)
 
-    return HttpResponse(jsonData, content_type='application/json')
+    return HttpResponse(jsonData, content_type="application/json")
 
 
 
@@ -36,12 +35,18 @@ class Appointments(View):
   # Get all appointments 
   def get(self, request):
     if (request.method == "GET"):
-      query = parse_qs(request.body)
-      print(query, 'REQUEST BODY')
-      appointments = Appointment.objects.all()
-      jsonData = convert_json(appointments)
-      
-      return HttpResponse(jsonData, content_type='application/json')
+        if (request.GET.type == "user"):
+          appointments = Appointment.objects.filter(user__contains=request.GET.user)
+
+        elif (request.GET.type == "description"):
+          appointments = Appointment.objects.filter(description__contains=request.GET.description)
+
+        else:
+          query = (request.GET)
+          print(query, "REQUEST BODY")
+          appointments = Appointment.objects.all()
+        jsonData = convert_json(appointments)
+        return HttpResponse(jsonData, content_type="application/json")
 
 
 
@@ -57,7 +62,7 @@ class Appointments(View):
       # Check for missing fields
 
       missingfields = []
-      requiredfields = ['user', 'datetime', 'description']
+      requiredfields = ["user", "datetime", "description"]
 
       for field in requiredfields:
         if (not field in appointment):
@@ -66,24 +71,21 @@ class Appointments(View):
       # Respond with missing fields if empty
       
       if (len(missingfields) > 0):
-        missing = json.dumps({'missing_fields': missingfields})
-        return HttpResponse(missing, status=400, content_type='application/json')
+        missing = json.dumps({"missing_fields": missingfields})
+        return HttpResponse(missing, status=400, content_type="application/json")
 
       else:
         
         # Save the appointment
 
-        apptToSave = Appointment.objects.create(user=appointment['user'], description=appointment['description'],datetime=appointment['datetime'])
+        Appointment.objects.create(user=appointment['user'], description=appointment["description"],datetime=appointment["datetime"])
         print(apptToSave.id)
 
         # Write the id to the response object to send to the client
         appointmentResponse = {
-          'user': appointment['user'],
-          'datetime': appointment['datetime'],
-          'description': appointment['description'],
-          'id': apptToSave['id']
+          "message": "Appointment created!"
         }
-
+        
         jsonResponse = json.dumps(appointmentResponse)
         
         # Return the saved appointment as confirmation
