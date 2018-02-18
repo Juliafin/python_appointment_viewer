@@ -10,3 +10,10 @@ h1 {
   color:red
 }
 
+form#appt_search {
+  margin-top: 200px;
+}
+
+.hidden{
+  display: none
+}

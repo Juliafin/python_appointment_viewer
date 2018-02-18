@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.views.generic import View
 # template
 from django.template import loader
+from urllib.parse import parse_qs
+
 
 
 def index(request):
@@ -34,6 +36,8 @@ class Appointments(View):
   # Get all appointments 
   def get(self, request):
     if (request.method == "GET"):
+      query = parse_qs(request.body)
+      print(query, 'REQUEST BODY')
       appointments = Appointment.objects.all()
       jsonData = convert_json(appointments)
       
@@ -74,4 +78,5 @@ class Appointments(View):
         appointment['id'] = apptToSave.id
         jsonResponse = json.dumps(appointment)
         
+        # Return the saved appointment as confirmation
         return HttpResponse(jsonResponse, status=202, content_type='application/json')
