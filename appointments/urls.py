@@ -6,7 +6,7 @@ urlpatterns = [
   url(r'^$', index, name='index'),
 
   # /appointments
-  url(r'^appointments$', Appointments.as_view(), name='appointments'),
+  url(r'^appointments/?$', Appointments.as_view(), name='appointments'),
 
   # /appointments/user
   url(r'^appointments/(?P<user>[a-zA-Z]+)/$', appointmentUser, name="appointmentName" )

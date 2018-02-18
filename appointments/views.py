@@ -2,7 +2,7 @@
 from .models import Appointment
 # json utils
 import json
-from .convert_json import convert_json
+from .utils import convert_json, get_client_ip
 # views and http
 from django.http import HttpResponse
 from django.views.generic import View
@@ -12,6 +12,8 @@ from django.template import loader
 
 def index(request):
   template = loader.get_template('appointments/index.html')
+  userIP = get_client_ip(request)
+  print(userIP)
   return HttpResponse(template.render())
 
 
