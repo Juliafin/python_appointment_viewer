@@ -7,6 +7,7 @@
   // Listeners
   ////////////////////////////////////////////////////////////////////
 
+    // Search form listener
     const submitSearch = () => {
       $('#appt_search').submit(function(event) {
         event.preventDefault();
@@ -24,6 +25,7 @@
     };
 
 
+    // Appointment creation listener - Form submit
     const submitCreate = () => {
       $('#create_appt').submit(function(event) {
         event.preventDefault();
@@ -45,6 +47,7 @@
       });
     };
 
+    // Appointment form reveal listener
     const newButton = () => {
       
       $('#addNewButton').click(function(event) {
@@ -63,6 +66,7 @@
       });
     };
 
+    // Appointment form hide listener
     const cancelButton = () => {
 
       $('#cancel').click(function(event) {
@@ -79,6 +83,7 @@
     };
 
 
+    // Checking if fields are empty on appointment creation form
     const checkEmpty = () => {
 
       $('#create_appt input').keyup(function(event) {
@@ -98,6 +103,23 @@
     };
 
 
+    // Delete buttons in table
+    const deleteButton = () => {
+      
+      $('table.table').on('click', '.delete_appointment', function(event) {
+
+        console.log('delete button clicked');
+        let appointmentToDelete = {
+          id:$(this).closest('tr').attr('id'),
+          csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+        };
+        console.log('this is appointment to delete: ', appointmentToDelete );
+
+
+
+
+      });
+    };
 
 
   ////////////////////////////////////////////////////////////////////
@@ -151,6 +173,15 @@
     };
 
 
+    const deleteappointment = () => {
+      const options = {
+        method: "POST",
+        url: `/appointments/`,
+        data
+      };
+    }
+
+
   ////////////////////////////////////////////////////////////////////
   // Render
   ////////////////////////////////////////////////////////////////////
@@ -165,6 +196,7 @@
       <th scope="col">User</th>
       <th scope="col">Appointment Time</th>
       <th scope="col">Description</th>
+      <th scope="col"></th>
     </tr>
     </thead>
     `;
@@ -175,6 +207,7 @@
           <td>${row.user}</td>
           <td>${moment(row.datetime).format('h:mm A on MMMM Do, YYYY')}</td>
           <td>${row.description}</td>
+          <td><button class="btn btn-danger delete_appointment">Delete</button></td>
         </tr>`
       tableTemplate += rowTemplate;
     });
@@ -201,6 +234,7 @@
       newButton();
       cancelButton();
       checkEmpty();
+      deleteButton();
     };
 
     init();
