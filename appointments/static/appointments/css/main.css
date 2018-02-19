@@ -6,7 +6,7 @@ div.navbar-brand {
   color: antiquewhite;
   animation-name: glow;
   animation-direction: normal;
-  animation-duration: 7s;
+  animation-duration: 4s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
@@ -16,7 +16,7 @@ button#addNewButton, button#cancel {
 }
 
 button#search {
-  margin-top: 20px;
+  margin: 20px 0 30px 0;
 }
 
 form#appt_search {
