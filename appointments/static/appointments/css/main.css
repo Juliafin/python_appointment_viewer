@@ -11,8 +11,12 @@ div.navbar-brand {
   animation-iteration-count: infinite;
 }
 
-h1 {
-  color:red
+button#addNewButton, button#cancel {
+  margin-top: 55px;
+}
+
+button#search {
+  margin-top: 20px;
 }
 
 form#appt_search {

@@ -12,11 +12,12 @@
   <link rel="stylesheet" type="text/css" media="screen" href="{% static "appointments/css/main.css" %}" />
 </head>
 <body>
+  
   <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">View Appointments</div>
   </nav>
+  
   <div class="container-fluid">
-    <h1>Appointment viewer</h1>
     <div class="row">
       <div class="col-6">
         <form id="create_appt" action="" method="POST">
@@ -48,34 +49,33 @@
         <div class="col"></div>
         
       </div>
-
-
     </div>
 
 
-
-
-
-
-  
-    <form id="appt_search">
-      <div class="form-group">
-        <label for="search">Search Appointments</label>
-        <input class="form-control" type="text" id="search">
+    <div class="row">
+      <div class="col-6">
+        <form id="appt_search">
+          <div class="form-group">
+            <label for="search">Search Appointments</label>
+            <input class="form-control" type="text" id="search">
+          </div>
+          <div class="form-group">
+            <label for="search_category">Search by: </label>
+            <select class="form-control" name="search_category" id="search_category">
+              <option default value="description">Description</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+            <button type="submit" id="search" class="btn btn-primary">Submit</button>
+            <div class="col"></div>
+          
+        </form>
       </div>
-      <div class="form-group">
-        <select class="form-control" name="search_category" id="search_category">
-          <option default value="description">Description</option>
-          <option value="user">User</option>
-        </select>
-      </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      
-    </form>
+    </div>
 
 
     <div class="container" id="table_container">
-      <table class="table table-bordered"></table>
+      <table class="table table-bordered table-hover"></table>
     </div>
 
   </div>
