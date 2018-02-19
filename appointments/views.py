@@ -9,7 +9,7 @@ from django.views.generic import View
 # template
 from django.template import loader
 from django.shortcuts import render
-from urllib.parse import parse_qs
+
 
 def index(request):
   template = loader.get_template("appointments/index.html")
@@ -19,15 +19,23 @@ def index(request):
 
 
 
-def appointmentUser(request, user):
-  if (request.method == "GET"):
-    # Get users matching the url from the database
-    userAppointments = Appointment.objects.filter(user=str(user))
+# def appointmentUser(request, user):
+#   if (request.method == "GET"):
+#     # Get users matching the url from the database
+#     userAppointments = Appointment.objects.filter(user=str(user))
     
-    jsonData = convert_json(userAppointments)
+#     jsonData = convert_json(userAppointments)
 
-    return HttpResponse(jsonData, content_type="application/json")
+#     return HttpResponse(jsonData, content_type="application/json")
 
+    #Delete appointment
+def deleteUser(request):
+  if (request.method == "POST"):
+    
+    print(request.POST, "REQUEST DELETE")
+    apptToDelete = Appointment.objects.get(pk=request.POST["id"])
+    apptToDelete.delete()
+    return HttpResponse(json.dumps({"message":"Deletion successful"}))
 
 
 class Appointments(View):
@@ -79,7 +87,6 @@ class Appointments(View):
         # Save the appointment
 
         Appointment.objects.create(user=appointment['user'], description=appointment["description"],datetime=appointment["datetime"])
-        print(apptToSave.id)
 
         # Write the id to the response object to send to the client
         appointmentResponse = {
@@ -90,14 +97,4 @@ class Appointments(View):
         
         # Return the saved appointment as confirmation
         return HttpResponse(jsonResponse, status=202, content_type='application/json')
-  
-
-
-  #Delete appointment
-  def delete(self, request):
-    
-    if (request.method == "DELETE"):
-      toDelete = parse_qs(request.body);
-      print(toDelete['id'])
-      return HttpResponse(json.dumps({'test':'hello'}))
 

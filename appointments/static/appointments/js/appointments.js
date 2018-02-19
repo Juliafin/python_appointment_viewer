@@ -158,7 +158,8 @@
 
       return $.ajax(options)
         .then((appointment) => {
-          console.log(appointment)
+          console.log(appointment);
+          clearAppointmentForm();
           getAppointments();
         })
         .catch((err) => {
@@ -173,8 +174,8 @@
 
     const deleteAppointment = (data) => {
       const options = {
-        method: "DELETE",
-        url: `/appointments/`,
+        method: "POST",
+        url: `/appointments/delete`,
         data
       };
 
@@ -224,7 +225,6 @@
     });
 
     $('table.table').append(tableTemplate);
-    $(document).scrollTop(0);
   }
 
 
@@ -233,6 +233,12 @@
   // Utils
   ////////////////////////////////////////////////////////////////////
 
+    const clearAppointmentForm = () => {
+      $('#user').val()
+      $('#date').val()
+      $('#time').val()
+      $('#description').val()
+    }
 
 
 
