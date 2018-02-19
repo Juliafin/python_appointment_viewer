@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # TODO: Figure out how to deploy and host static files
 ALLOWED_HOSTS = ['localhost', 'ancient-ravine-71935.herokuapp.com']
