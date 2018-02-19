@@ -35,7 +35,7 @@ form#appt_search {
 
 @keyframes glow {
   0% {
-    filter: brightness(100%);
+    filter: brightness(90%);
     filter: saturate(100%);
   }
   50% {
