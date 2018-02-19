@@ -1,7 +1,7 @@
+let state = {
+  createAppointment: false
+};
 ($(document).ready(() => {
-  let state = {
-    createAppointment: false
-  };
 
   /////////////////////////////////////////////////////////////////////
   // Listeners
