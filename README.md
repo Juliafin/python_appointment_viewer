@@ -26,3 +26,4 @@
 
 5. Open (http://localhost:8000) in the browser.
 
+6. If all else fails, view the live version at: (https://ancient-ravine-71935.herokuapp.com/)!
