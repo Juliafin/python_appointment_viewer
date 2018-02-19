@@ -21,6 +21,7 @@ let state = {
         } else {
           getAppointments()
         }
+        $('#search').val('')
       });
     };
 
@@ -225,10 +226,10 @@ let state = {
   ////////////////////////////////////////////////////////////////////
 
     const clearAppointmentForm = () => {
-      $('#user').val()
-      $('#date').val()
-      $('#time').val()
-      $('#description').val()
+      $('#user').val('')
+      $('#date').val('')
+      $('#time').val('')
+      $('#description').val('')
     }
 
     // Initialize app
