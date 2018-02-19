@@ -7,26 +7,13 @@ from .utils import convert_json, get_client_ip
 from django.http import HttpResponse
 from django.views.generic import View
 # template
-from django.template import loader
 from django.shortcuts import render
 
 
 def index(request):
-  template = loader.get_template("appointments/index.html")
   userIP = get_client_ip(request)
   print(userIP)
   return render(request, "appointments/index.html")
-
-
-
-# def appointmentUser(request, user):
-#   if (request.method == "GET"):
-#     # Get users matching the url from the database
-#     userAppointments = Appointment.objects.filter(user=str(user))
-    
-#     jsonData = convert_json(userAppointments)
-
-#     return HttpResponse(jsonData, content_type="application/json")
 
     #Delete appointment
 def deleteUser(request):
@@ -55,7 +42,6 @@ class Appointments(View):
 
       jsonData = convert_json(appointments)
       return HttpResponse(jsonData, content_type="application/json")
-
 
 
   # Post appointment

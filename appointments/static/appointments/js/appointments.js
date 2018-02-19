@@ -3,6 +3,7 @@ let state = {
 };
 ($(document).ready(() => {
 
+
   /////////////////////////////////////////////////////////////////////
   // Listeners
   ////////////////////////////////////////////////////////////////////
@@ -12,7 +13,6 @@ let state = {
       $('#appt_search').submit(function(event) {
         event.preventDefault();
         
-        console.log('form submitted');
         let input = $('#search').val()
         if ($('#search_category').val() === 'user') {
           getAppointments('user', input);
@@ -30,10 +30,7 @@ let state = {
       $('#create_appt').submit(function(event) {
         event.preventDefault();
 
-        if (state.createAppointment) {
-
-          console.log('appointment create form submitted');
-          
+        if (state.createAppointment) {          
           let dateTime =  moment($('#date').val() + ' ' + $('#time').val(), 'YYYY-MM-DD hh:mm')
           let inputs = {
             user: $('#user').val(),
@@ -49,22 +46,19 @@ let state = {
           });
 
           if (!foundAppt) {
-            console.log(inputs); 
             postAppointment(inputs)
           } else {
-            // TODO: appointment already exists, display an error
-            console.log('appointment already exists')
           }
         }
       });
     };
+
 
     // Appointment form reveal listener
     const newButton = () => {
       
       $('#addNewButton').click(function(event) {
         event.preventDefault();
-        console.log(state.createAppointment)
         if (!state.createAppointment) {
           $('#hideform').removeClass('hidden');
           $('#cancel').removeClass('hidden');
@@ -120,12 +114,10 @@ let state = {
       
       $('table.table').on('click', '.delete_appointment', function(event) {
 
-        console.log('delete button clicked');
         let appointmentToDelete = {
           id:$(this).closest('tr').attr('id'),
           csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
         };
-        console.log('this is appointment to delete: ', appointmentToDelete );
         deleteAppointment(appointmentToDelete);
 
 
@@ -145,18 +137,13 @@ let state = {
         contentType: 'application/json',
         data: {type: type || "default", searchTerm}
       };
-      console.log(options)
 
       return $.ajax(options)
         .then((appointments) => {
-          // console.log(appointments)
           state.appointments = appointments;
-          console.log('these are the appointments', state.appointments)
           renderTable(state.appointments);
         })
         .catch((err) => {
-          console.log('Server error', err);
-          // TODO: get rid of loader
         })
     };
 
@@ -170,16 +157,12 @@ let state = {
 
       return $.ajax(options)
         .then((appointment) => {
-          console.log(appointment);
           clearAppointmentForm();
           getAppointments();
         })
         .catch((err) => {
-          console.log('Server errored');
           if (err.responseJSON) {
-            console.log(err.responseJSON)
           }
-          // TODO: get rid of loader
         });
     };
 
@@ -193,13 +176,10 @@ let state = {
 
       return $.ajax(options)
         .then((appointment) => {
-          console.log(appointment)
           getAppointments();
         })
         .catch((err) => {
-          console.log('Server errored');
           if (err.responseJSON) {
-            console.log(err.responseJSON)
           }
         });
 
@@ -240,8 +220,7 @@ let state = {
   }
 
 
-
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
   // Utils
   ////////////////////////////////////////////////////////////////////
 
@@ -252,8 +231,7 @@ let state = {
       $('#description').val()
     }
 
-
-
+    // Initialize app
     const init = () => {
       getAppointments();
       submitSearch();
