@@ -41,8 +41,20 @@ let state = {
             description: $('#description').val(),
             csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
           }
-          console.log(inputs); 
-          postAppointment(inputs)
+
+          let foundAppt = state.appointments.find((appointment) => {
+            let inputTime = moment(inputs.datetime).format('YYYY-MM-DD HH:mm');
+            let stateTime = moment(appointment.datetime).format('YYYY-MM-DD HH:mm');
+            return appointment.user === inputs.user && inputTime === stateTime        
+          });
+
+          if (!foundAppt) {
+            console.log(inputs); 
+            postAppointment(inputs)
+          } else {
+            // TODO: appointment already exists, display an error
+            console.log('appointment already exists')
+          }
         }
       });
     };
