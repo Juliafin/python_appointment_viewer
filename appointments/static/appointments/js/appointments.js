@@ -114,8 +114,7 @@
           csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
         };
         console.log('this is appointment to delete: ', appointmentToDelete );
-
-
+        deleteAppointment(appointmentToDelete);
 
 
       });
@@ -128,7 +127,6 @@
   
     const getAppointments = (type="", searchTerm="") => {
 
-      
       const options = {
         method: "GET",
         url: `/appointments/`,
@@ -173,12 +171,25 @@
     };
 
 
-    const deleteappointment = () => {
+    const deleteAppointment = (data) => {
       const options = {
-        method: "POST",
+        method: "DELETE",
         url: `/appointments/`,
         data
       };
+
+      return $.ajax(options)
+        .then((appointment) => {
+          console.log(appointment)
+          getAppointments();
+        })
+        .catch((err) => {
+          console.log('Server errored');
+          if (err.responseJSON) {
+            console.log(err.responseJSON)
+          }
+        });
+
     }
 
 
@@ -221,9 +232,6 @@
     ////////////////////////////////////////////////////////////////////
   // Utils
   ////////////////////////////////////////////////////////////////////
-
-
-
 
 
 

@@ -9,7 +9,7 @@ from django.views.generic import View
 # template
 from django.template import loader
 from django.shortcuts import render
-
+from urllib.parse import parse_qs
 
 def index(request):
   template = loader.get_template("appointments/index.html")
@@ -90,3 +90,14 @@ class Appointments(View):
         
         # Return the saved appointment as confirmation
         return HttpResponse(jsonResponse, status=202, content_type='application/json')
+  
+
+
+  #Delete appointment
+  def delete(self, request):
+    
+    if (request.method == "DELETE"):
+      toDelete = parse_qs(request.body);
+      print(toDelete['id'])
+      return HttpResponse(json.dumps({'test':'hello'}))
+
