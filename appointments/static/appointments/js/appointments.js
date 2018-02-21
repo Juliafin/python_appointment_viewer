@@ -48,7 +48,9 @@ let state = {
 
           if (!foundAppt) {
             postAppointment(inputs)
+            showModal(true, inputs);
           } else {
+            showModal(false);
           }
         }
       });
@@ -101,9 +103,7 @@ let state = {
         
         if (user && date && time && description) {
           $('#addNewButton').attr({
-            disabled: false,
-            'data-toggle':'modal',
-            'data-target': '#create_appt_modal'
+            disabled: false
           })
           }
       })
@@ -225,12 +225,33 @@ let state = {
   // Utils
   ////////////////////////////////////////////////////////////////////
 
+  // Clear form after submit
     const clearAppointmentForm = () => {
       $('#user').val('')
       $('#date').val('')
       $('#time').val('')
       $('#description').val('')
     }
+
+    // Display the correct modal whether appointment exists or not
+    const showModal = (success=true, appointment="") => {
+      if (!success) {
+        console.log('running with fail');
+        $('.modal-body').text('');
+        $('.modal-title').text('The appointment already exists');
+        $('#modal_button').addClass('btn-danger');
+        $('#create_appt_modal').modal('show');
+      } else {
+        let dateTime = moment(appointment.datetime).format('h:mm A on MMMM Do, YYYY');
+        let apptCreated = `${appointment.description} for ${appointment.user} at ${dateTime}`;
+        $('.modal-body').text(apptCreated);
+        $('.modal-title').text('Appointment successfully created!');
+        $('#modal_button').addClass('btn-success')
+        $('#create_appt_modal').modal('show');
+      }
+    }
+
+
 
     // Initialize app
     const init = () => {
